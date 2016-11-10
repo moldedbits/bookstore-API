@@ -1,5 +1,7 @@
 class UsersController < ApplicationController
   before_action :post_request_params, :only => [:sign_in]
+  skip_before_action :authenticate_user_from_token, :only => [:sign_in]
+
 
   def sign_in
     if !User.exists?(email: @request_params["email"])
@@ -12,6 +14,7 @@ class UsersController < ApplicationController
         errors("Invalid credentials, try again.",401)
       end
     end
+    p @user
   end
 
   private
